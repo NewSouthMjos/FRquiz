@@ -1,11 +1,16 @@
 from rest_framework import serializers
-from .models import Quiz, Question
+from .models import Quiz, Question, QuizReport, Answer
 
+
+class QuestionSerializerDetail(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ['id', 'quiz_id', 'type', 'description', 'answers_choise']
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['type', 'description']
+        fields = ['id', 'type', 'description', 'answers_choise']
 
 
 class QuizSerializerDetail(serializers.ModelSerializer):
@@ -37,3 +42,35 @@ class QuizSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id', 'question_id', 'quiz_report_id', 'value']
+
+    def create(self, validated_data):
+        print('Creating answer..')
+        return Answer.objects.create(**validated_data)
+
+
+class QuizReportSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True)
+
+    class Meta:
+        model = QuizReport
+        fields = ['id', 'quiz_id', 'user_id', 'answers']
+        validators = []
+
+    def create(self, validated_data):
+        print('Creating ReportSerializer')
+        answers_data = validated_data.pop('answers')
+        quiz_report_obj = QuizReport.objects.create(**validated_data)
+        for answer_data in answers_data:
+            question_id = answer_data.pop('question_id')
+            print(quiz_report_obj)
+            Answer.objects.create(
+                question_id=question_id,
+                quiz_report_id=quiz_report_obj,
+                **answer_data
+            )
+        return quiz_report_obj

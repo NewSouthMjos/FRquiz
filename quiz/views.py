@@ -1,3 +1,5 @@
+import time
+
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,8 +7,11 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 
-from .models import Quiz
-from .serializers import QuizSerializerDetail, QuizSerializer
+from .models import Quiz, Question, QuizReport
+from .serializers import (
+    QuizSerializerDetail, QuizSerializer, QuestionSerializerDetail,
+    QuizReportSerializer
+)
 
 
 class CreateQuizView(generics.CreateAPIView):
@@ -29,7 +34,33 @@ class RUDQuizView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuizSerializer
     queryset = Quiz.objects.all()
 
+
+class CreateQuestionView(generics.CreateAPIView):
+    """Создание вопроса - для администратора"""
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = QuestionSerializerDetail
+    queryset = Question.objects.all()
+
+
+class RUDQuestionView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Чтение, обновление, удаление вопроса - для
+    администратора
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = QuestionSerializerDetail
+    queryset = Question.objects.all()
+
+
 class GetQuizDetailView(APIView):
+    """
+    Отдаёт опрос вместе со всеми вопросами,
+    принадлежащими данному опросу
+    """
     authentication_classes = []
     permission_classes = []
 
@@ -39,7 +70,50 @@ class GetQuizDetailView(APIView):
         return Response(serializer.data)
 
 
+class GetAllActiveQuizView(APIView):
+    """
+    Отдаёт все опросы, активные на данный момент.
+    Активные - значит текущее время лежит между
+    start_date и end_date опроса.
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        now_unix = int(time.time())
+        quizs = Quiz.objects.filter(
+            start_date__lt=now_unix,
+            end_date__gt=now_unix
+        )
+        serializer = QuizSerializer(instance=quizs, many=True)
+        return Response(serializer.data)
+
+
+class GetQuizReportView(generics.ListAPIView):
+    """
+    Возвращает отчёт: детализацию пройденного опроса
+    по id детализации
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    serializer_class = QuizReportSerializer
+    queryset = QuizReport.objects.all()
+
+class SaveQuizReportView(generics.ListCreateAPIView):
+    """
+    Сохраняет принятый в POST-запросе отчёт
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    serializer_class = QuizReportSerializer
+    queryset = QuizReport.objects.all()
+    
+
+
 class WhoIsView(APIView):
+    """Запрос данных об аутентификации пользователя"""
     authentication_classes = []
     permission_classes = []
 

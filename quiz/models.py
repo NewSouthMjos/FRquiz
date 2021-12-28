@@ -7,8 +7,8 @@ class Quiz(models.Model):
     на конкретные вопросы
     """
     name = models.CharField(max_length=100, blank=False)
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
+    start_date = models.BigIntegerField(null=True)
+    end_date = models.BigIntegerField(null=True)
     description = models.TextField()
 
 
@@ -19,27 +19,34 @@ class Question(models.Model):
         related_name='questions',
         on_delete=models.CASCADE,
     )
-    type = models.CharField(max_length=10)
+
+    # type should be one of values: text, choise, multichoise
+    type = models.CharField(max_length=11)
+    
     description = models.TextField()
+    answers_choise = models.TextField(null=True)
 
 
 class QuizReport(models.Model):
-    """Сборник ответов на конкретную викторину"""
+    """Сборник ответов на конкретный опрос"""
     quiz_id = models.ForeignKey(
         'Quiz',
+        related_name='quiz_id',
         on_delete=models.CASCADE,
     )
-    user_poiter_id = models.BigIntegerField(null=True, blank=True)
+    user_id = models.BigIntegerField(null=True, blank=True)
 
 
 class Answer(models.Model):
     """Ответ на конкретный вопрос"""
     question_id = models.ForeignKey(
         'Question',
+        related_name='answers',
         on_delete=models.CASCADE
     )
     quiz_report_id = models.ForeignKey(
         'QuizReport',
+        related_name='answers',
         on_delete=models.CASCADE
     )
     value = models.TextField()
