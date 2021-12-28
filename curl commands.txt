@@ -1,3 +1,5 @@
 curl -X GET http://127.0.0.1:8000/api/whois/
 
 curl -X POST http://127.0.0.1:8000/api-token-auth/ -d "username=wsv&password=12345"
+
+curl -X GET http://127.0.0.1:8000/api/quiz/getallactive

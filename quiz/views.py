@@ -100,6 +100,10 @@ class GetQuizReportView(generics.ListAPIView):
     serializer_class = QuizReportSerializer
     queryset = QuizReport.objects.all()
 
+    def get_queryset(self):
+        return self.queryset.filter(pk=self.kwargs['pk'])
+
+
 class SaveQuizReportView(generics.ListCreateAPIView):
     """
     Сохраняет принятый в POST-запросе отчёт

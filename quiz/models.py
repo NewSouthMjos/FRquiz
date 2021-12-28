@@ -31,7 +31,7 @@ class QuizReport(models.Model):
     """Сборник ответов на конкретный опрос"""
     quiz_id = models.ForeignKey(
         'Quiz',
-        related_name='quiz_id',
+        related_name='quiz_reports',
         on_delete=models.CASCADE,
     )
     user_id = models.BigIntegerField(null=True, blank=True)
@@ -41,7 +41,7 @@ class Answer(models.Model):
     """Ответ на конкретный вопрос"""
     question_id = models.ForeignKey(
         'Question',
-        related_name='answers',
+        related_name='answers_to_question',
         on_delete=models.CASCADE
     )
     quiz_report_id = models.ForeignKey(

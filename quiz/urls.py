@@ -21,6 +21,6 @@ urlpatterns = [
 
     # Reports
     path('report/<int:pk>', GetQuizReportView.as_view()),
-    path('quiz/<int:pk>/report', SaveQuizReportView.as_view()),
+    path('make_report', SaveQuizReportView.as_view()),
     
 ]
