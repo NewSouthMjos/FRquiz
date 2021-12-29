@@ -99,7 +99,6 @@ class GetAllActiveQuizView(APIView):
 
     def get(self, request):
         now_unix = int(time.time())
-        print(now_unix)
         quizs = Quiz.objects.filter(
             start_date__lt=now_unix,
             end_date__gt=now_unix
@@ -155,7 +154,7 @@ class WhoIsView(APIView):
 
     def get(self, request, format=None):
         content = {
-            'user': str(request.user),  # `django.contrib.auth.User` instance.
-            'auth': str(request.auth),  # None
+            'user': str(request.user),
+            'auth': str(request.auth),
         }
         return Response(content)
