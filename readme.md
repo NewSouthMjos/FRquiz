@@ -7,5 +7,8 @@
 - Django 2.2.10
 - Django REST framework
 
+# Документация
+см. папку documentation
+
 # Автор
 Мишкин Е.И., 2021
