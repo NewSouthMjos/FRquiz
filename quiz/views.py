@@ -10,7 +10,7 @@ from rest_framework.parsers import JSONParser
 from .models import Quiz, Question, QuizReport
 from .serializers import (
     QuizSerializerDetail, QuizSerializer, QuestionSerializerDetail,
-    QuizReportSerializer
+    QuizReportSerializer, QuizReportFullSerializer
 )
 
 
@@ -114,6 +114,19 @@ class SaveQuizReportView(generics.ListCreateAPIView):
     serializer_class = QuizReportSerializer
     queryset = QuizReport.objects.all()
     
+
+class GetAllUserReportsView(APIView):
+    """
+    Возвращает все отчеты в подбробном виде, доступные
+    для пользователя с переданным id
+    """
+
+    def get(self, request, user_id):
+        reports = QuizReport.objects.filter(user_id=user_id)
+        serializer = QuizReportFullSerializer(
+            instance=reports, many=True
+        )
+        return Response(serializer.data)
 
 
 class WhoIsView(APIView):

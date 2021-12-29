@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (
     CreateQuizView, WhoIsView, GetQuizDetailView, CreateQuizView,
     RUDQuizView, CreateQuestionView, RUDQuestionView,
-    GetAllActiveQuizView, GetQuizReportView, SaveQuizReportView
+    GetAllActiveQuizView, GetQuizReportView, SaveQuizReportView,
+    GetAllUserReportsView,
 )
 
 
@@ -22,5 +23,6 @@ urlpatterns = [
     # Reports
     path('report/<int:pk>', GetQuizReportView.as_view()),
     path('make_report', SaveQuizReportView.as_view()),
+    path('get_all_user_reports/<int:user_id>', GetAllUserReportsView.as_view()),
     
 ]
