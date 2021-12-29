@@ -3,9 +3,9 @@
 Предоставить API-доступ для сервиса опросов.
 
 # Использованный стек
--Python 3
--Django 2.2.10
--Django REST framework
+- Python 3
+- Django 2.2.10
+- Django REST framework
 
 # Автор
 Мишкин Е.И., 2021
