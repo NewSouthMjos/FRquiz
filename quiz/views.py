@@ -99,6 +99,7 @@ class GetAllActiveQuizView(APIView):
 
     def get(self, request):
         now_unix = int(time.time())
+        print(now_unix)
         quizs = Quiz.objects.filter(
             start_date__lt=now_unix,
             end_date__gt=now_unix

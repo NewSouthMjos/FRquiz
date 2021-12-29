@@ -7,8 +7,8 @@ class Quiz(models.Model):
     на конкретные вопросы
     """
     name = models.CharField(max_length=100, blank=False)
-    start_date = models.BigIntegerField(null=True)
-    end_date = models.BigIntegerField(null=True)
+    start_date = models.BigIntegerField(null=True, blank=True)
+    end_date = models.BigIntegerField(null=True, blank=True)
     description = models.TextField()
 
 

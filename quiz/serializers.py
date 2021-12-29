@@ -146,7 +146,7 @@ class QuizReportFullSerializer(serializers.ModelSerializer):
 # class UserReportsFullSerializer(serializers.Serializer):
 #     quiz_reports = QuizReportFullSerializer(many=True, read_only=True)
 #     def get_requested_user_id(self, obj):
-#         context = superЦ
+#         context = super
 #         if "requested_user_id" in self.context:
 #             return self.context["requested_user_id"]
 #         return None
