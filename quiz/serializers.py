@@ -93,11 +93,14 @@ class AnswerFullSerializer(serializers.ModelSerializer):
     question_description = serializers.CharField(
         read_only=True, source="question_id.description"
     )
+    question_answers_choise = serializers.CharField(
+        read_only=True, source="question_id.answers_choise"
+    )
 
     class Meta:
         model = Answer
         fields = ['id', 'question_id', 'question_type',
-                  'question_description', 'value']
+                  'question_description', 'question_answers_choise', 'value']
 
 
 class QuizReportFullSerializer(serializers.ModelSerializer):

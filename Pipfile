@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "==2.2.10"
 djangorestframework = "*"
-djangorestframework-api-key = "==2.*"
 
 [dev-packages]
 
