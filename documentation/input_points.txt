@@ -128,20 +128,20 @@ quiz_id, type, description, answers_choise
 report.
 Пример JSON-данных для использования:
 {
-    "quiz_id": 5,
-    "user_id": 123,
+    "quiz_id": 22,
+    "user_id": 10,
     "answers": [
         {
-            "question_id": 3,
-            "value": 2
+            "question_id": 14,
+            "value": "2"
         },
         {
-            "question_id": 4,
-            "value": "Примерно 7:30"
+            "question_id": 15,
+            "value": "1///3"
         },
         {
-            "question_id": 5,
-            "value": "Вопросов нет"
+            "question_id": 16,
+            "value": "Вопросов не возникло"
         }
     ]
 }
