@@ -48,9 +48,10 @@ answers_choise
 
 Пример JSON-данных для использования:
 {
-    "quiz_id": 5,
+    "quiz_id": 1,
     "type": "choise",
-    "description": "Сколько часов в день вы спите?"
+    "description": "Сколько часов в день вы спите?",
+    "answers_choise": "Четыре-шесть///Шесть-восемь///Восемь-десять"
 }
 
 3.1 /api/question/<id>/edit GET:

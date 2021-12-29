@@ -7,6 +7,25 @@ class QuestionSerializerDetail(serializers.ModelSerializer):
         model = Question
         fields = ['id', 'quiz_id', 'type', 'description', 'answers_choise']
 
+    # Неправильно понял условие
+    # def validate(self, data):
+    #     """
+    #     После создания поле "дата старта" у опроса менять нельзя
+    #     - добавление/изменение/удаление вопросов в опросе
+    #     """
+    #     print('Validating data.. question refer to: quiz_id:')
+    #     if data['quiz_id']:
+    #         quiz_obj = data['quiz_id']
+    #     else:
+    #         quiz_obj = Quiz.objects.filter()
+    #     print(f'{quiz_obj.start_date=}')
+    #     print(
+    #         f'can we write? {quiz_obj.start_date is None}'
+    #     )
+    #     if quiz_obj.start_date is not None:
+    #         raise serializers.ValidationError(f"Quiz #{quiz_obj.id} already has startdate, you cant write questions to it!")
+    #     return data
+
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
@@ -48,6 +67,10 @@ class QuizSerializer(serializers.ModelSerializer):
         )
         instance.save()
         return instance
+
+    # def validate(self, data):
+    
+    #     return data
 
 
 class AnswerSerializer(serializers.ModelSerializer):

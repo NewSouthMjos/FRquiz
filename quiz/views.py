@@ -6,12 +6,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
+from rest_framework.exceptions import APIException
+
 
 from .models import Quiz, Question, QuizReport
 from .serializers import (
     QuizSerializerDetail, QuizSerializer, QuestionSerializerDetail,
     QuizReportSerializer, QuizReportFullSerializer
 )
+
+
+class AlreadyHasStartDateExeption(APIException):
+    status_code = 403
 
 
 class CreateQuizView(generics.CreateAPIView):
@@ -33,6 +39,18 @@ class RUDQuizView(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = QuizSerializer
     queryset = Quiz.objects.all()
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        try:
+            quiz_obj = Quiz.objects.get(pk=self.kwargs['pk'])
+            if quiz_obj.start_date is not None:
+                message = f'Quiz #{quiz_obj.id} already has start date, so you cant modify this quiz!'
+                raise AlreadyHasStartDateExeption(message)
+        except Quiz.DoesNotExist:
+            pass
+            # let the default exeption handler handle this
+        return self.update(request, *args, **kwargs)
 
 
 class CreateQuestionView(generics.CreateAPIView):
