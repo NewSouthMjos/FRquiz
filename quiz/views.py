@@ -144,7 +144,11 @@ class GetAllUserReportsView(APIView):
         serializer = QuizReportFullSerializer(
             instance=reports, many=True
         )
-        return Response(serializer.data)
+        response_data = {
+            "user_id": user_id,
+            "quiz_reports": serializer.data
+        }
+        return Response(response_data)
 
 
 class WhoIsView(APIView):

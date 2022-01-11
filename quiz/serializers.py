@@ -114,23 +114,5 @@ class QuizReportFullSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuizReport
-        fields = ['id', 'user_id', 'quiz_id', 'quiz_name',
+        fields = ['id', 'quiz_id', 'quiz_name',
                   'quiz_description', 'answers']
-
-
-# TODO: Сериалайзер, который отдаёт только id запрошенного пользователя
-# ПЛЮС все репорты, относящиеся к нему (уже без id пользователя)
-# class UserReportsFullSerializer(serializers.Serializer):
-#     quiz_reports = QuizReportFullSerializer(many=True, read_only=True)
-#     def get_requested_user_id(self, obj):
-#         context = super
-#         if "requested_user_id" in self.context:
-#             return self.context["requested_user_id"]
-#         return None
-
-#     requested_user_id = get_requested_user_id()
-#     print(requested_user_id)
-#     user_id = serializers.IntegerField(label='user_id', read_only=True, source='requested_user_id')
-#     # class Meta:
-#     #     model = QuizReport
-#     #     fields = ['user_id', 'quiz_reports']
